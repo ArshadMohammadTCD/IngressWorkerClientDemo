@@ -19,8 +19,8 @@ UDPServerSocketExternal = socket.socket(family=socket.AF_INET, type = socket.SOC
 UDPServerSocketInternal = socket.socket(family=socket.AF_INET, type = socket.SOCK_DGRAM)
 
 # Bind to address and ip
-UDPServerSocketExternal.bind((internalIp, internalPort))
-UDPServerSocketInternal.bind((externalIp, externalPort))
+UDPServerSocketInternal.bind((internalIp, internalPort))
+UDPServerSocketExternal.bind((externalIp, externalPort))
 print("UDP Server up and listening!")
 
 while(True):
