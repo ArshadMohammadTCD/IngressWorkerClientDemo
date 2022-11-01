@@ -1,0 +1,257 @@
+%%
+% Template for Assignment Reports
+% 
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx,color}
+\usepackage{anysize}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{float}
+
+% Margins
+%\topmargin=-0.45in
+%\evensidemargin=0in
+%\oddsidemargin=0in
+\textwidth=6.5in
+%\textheight=9.0in
+%\headsep=0.25in 
+\linespread{1.0} % Line spacing
+
+%%------------------------------------------------
+%% Image and Listing code
+%%------------------------------------------------
+%% Examples for the commands in the document below
+%%
+%% includecode:
+%% \includecode{caption for table of listings}{caption for reader}{filename}
+%% - includes a file with code and adds a caption that should describe the code in some detail and a shorter caption for the table of listings
+\newcommand{\includecode}[4]{\lstinputlisting[float, caption={[#1]#2}, captionpos=b, frame=single, label={#3}]{#4}}
+
+
+%% includescalefigure:
+%% \includescalefigure{label}{short caption}{long caption}{scale}{filename}
+%% - includes a figure with a given label, a short caption for the table of contents and a longer caption that describes the figure in some detail and a scale factor 'scale'
+\newcommand{\includescalefigure}[5]{
+\begin{figure}[htb]
+\centering
+\includegraphics[width=#4\linewidth]{#5}
+\captionsetup{width=.8\linewidth} 
+\caption[#2]{#3}
+\label{#1}
+\end{figure}
+}
+
+%% includefigure:
+%% \includefigure{label}{short caption}{long caption}{filename}
+%% - includes a figure with a given label, a short caption for the table of contents and a longer caption that describes the figure in some detail
+\newcommand{\includefigure}[4]{
+\begin{figure}[htb]
+\centering
+\includegraphics{#4}
+\captionsetup{width=.8\linewidth} 
+\caption[#2]{#3}
+\label{#1}
+\end{figure}
+}
+
+
+%%------------------------------------------------
+%% Parameters
+%%------------------------------------------------
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\authorName} % Top left header
+\chead{\moduleCode\ - \assignmentTitle} % Top center header
+\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+\newcommand{\assignmentTitle}{Assignment\ \#1: Protocols} % Assignment title
+\newcommand{\moduleCode}{CSU33031} 
+\newcommand{\moduleName}{Computer Networks} 
+\newcommand{\authorName}{Sean\ Murphy} % Your name ***EDIT HERE***
+\newcommand{\authorID}{Std\# 1800123} % Your student ID ***EDIT HERE***
+\newcommand{\reportDate}{\printDate}
+
+
+%%------------------------------------------------
+%%	Title Page
+%%------------------------------------------------
+\title{
+\vspace{-1in}
+\begin{figure}[!ht]
+\flushleft
+\includegraphics[width=0.4\linewidth]{reduced-trinity.png}
+\end{figure}
+\vspace{-0.5cm}
+\hrulefill \\
+\vspace{0.5cm}
+\textmd{\textbf{\moduleCode\ \moduleName}}\\
+\textmd{\textbf{\assignmentTitle}}\\
+\vspace{0.5cm}
+\hrulefill \\
+}
+\author{\textbf{\authorName,\ \authorID}}
+\date{\today}
+
+
+%%------------------------------------------------
+%% Document
+%%------------------------------------------------
+\begin{document}
+%% Defaults for listings
+\lstset{language=Python, captionpos=b, frame=single}
+\captionsetup{width=.8\linewidth} 
+
+\maketitle
+\tableofcontents
+\vspace{0.5in}
+
+%% We will skip a couple of components of reports such as abstracts, literature review, etc for the reports on assignments.
+%%------------------------------------------------
+\section{Introduction}
+\label{sec:Intro}
+
+The introduction should describe the general problem that is the focus of the assignment and outline the approach that you have taken to address the problem.
+
+
+%%------------------------------------------------
+\section{Theory of Topic}
+\label{sec:Theory}
+
+The section on the theory at the basis of the assignment should describe the concepts and protocols that were used to realize a solution. 
+
+The beginning of a section should explain to the reader the overall motivation of the section, the parts that make up the section, and why these parts are relevant i.e. why the reader should consider the section.
+
+
+\subsection{First Component}
+
+
+%% Use ~ as non-breakable space between last word and reference
+An example of how to reference a figure in the thesis document; see figure~\ref{fig:ImageOfAChick}.
+
+\includefigure{fig:ImageOfAChick}{An Image of a chick}{A caption should describe the figure to the reader and explain to the reader the meaning of the figure. A Sub-clause of Murphy's Law: If the interpretation of a figure is left to a reader, the reader will misinterpret the figure, feel insulted or decide to ignore it. Do not leave it up to the reader!}{image.png}
+
+
+
+\subsection{Second Component}
+
+
+\subsection{Communication and Packet Description}
+
+
+%%------------------------------------------------
+\section{Implementation}
+\label{sec:Implementation}
+
+%% An introduction to the implementation section that informs the reader about the components that will be presented and why this information is relevant.
+
+\subsection{Component 1}
+
+The code in listing~\ref{lst:snippet} is a demonstration how to include a file with code into the template.
+
+%% Short caption for the table of listings - long caption for the explanation for the reader
+\includecode{Sample Code}{Lengthy caption explaining the code to the reader}{lst:snippet}{snippet.py}
+
+\subsection{Component 2}
+
+The code in listing~\ref{lst:snippet2} is a demonstration how to include code in the template.
+
+%% Short caption for the table of listings - long caption for the explanation for the reader
+\begin{lstlisting}[caption={[Sample Code 2]Second Lengthy caption}, label={lst:snippet2}]
+x = 1
+if x == 1:
+    # indented four spaces
+    print("x is 1.")
+\end{lstlisting}
+
+
+\subsection{User Interaction}
+
+\subsection{Packet Encoding}
+
+
+%%------------------------------------------------
+\section{Discussion}
+\label{sec:Discussion}
+
+Figure~\ref{fig:measurements} shows measurements.
+
+\includescalefigure{fig:measurements}{Measurement of System Wakeups}{Long caption that describes the figure to the reader}{1}{measurements.png}
+
+
+Describes the experimental setup and the values that were defined for the variables as given in table~\ref{tab:experimentsetup}.
+
+\begin{table}[!h]
+\begin{center}
+	\begin{tabular}{|l|c|c|} 
+	\hline
+ 	\bf Column 1  & \bf Column 2  & \bf Column 3 \\
+  	\hline
+	Row 1 & Item 1 & Item 2 \\
+	Row 2 & Item 1 & Item 2 \\
+	Row 3 & Item 1 & Item 2 \\
+	Row 4 & Item 1 & Item 2 \\
+	\hline
+	\end{tabular}
+\end{center}
+\caption[Variables of the experiment]{Caption that explains the table to the reader}	
+\label{tab:experimentsetup}
+\end{table}
+
+
+
+%%------------------------------------------------
+%% Summary of the document i.e. what was presented, what was the outcome of the project
+%% and the document.
+\section{Summary}
+\label{sec:Summary}
+
+
+%%------------------------------------------------
+%% The reflection should layout your thoughts on the 
+%% How many hours did you spent on the assignment? What worked well for you/what didn't?
+%% What would you improve/change in your approach for the next assignment?
+\section{Reflection}
+\label{sec:Reflection}
+
+
+
+\subsection{Do's \& Don't's}
+\label{sec:DosAndDonts}
+
+The following points are couple of {\it Do's and Don't's} that I have noted down as feedback to reports over the years. The focus of this list is to encourage writers to be specific in writing reports - some of this is motivated by Strunk and White's The Elements of Style~(\cite{strunk}):
+
+\begin{description}
+	\item [Acronyms:] Acronyms should be introduced by the words they represent followed by the acronym in capitals enclosed in brackets e.g. "...TCP (Transmission Control Protocol)..." $\Rightarrow$  "... Transmission Control Protocol (TCP)..."
+	\item [Contractions:] I would generally suggest to avoid contractions such as "I'd", "They've", etc in reports. In some cases, they are ambiguous e.g. "I'd" $\Rightarrow$ "I would" or "I had" and can lead to misunderstandings.
+	\item [Avoid "do":] Be specific and use specific verbs to describe actions.
+	\item [Adverbs:] Adverbs and adjectives such as "easily", "generally", etc should be removed because they are unspecific e.g. the statement "can be easily implemented" depends very much on the developer. 
+	\item [Articles:] "A" and "an" are indefinite articles; they should be used if the subject is unknown. "The" is a definite article; which should be used if a specific subject is referred to. For example, the subject referred to in "allocated by the coordinator" is not determined at the time of writing and so the sentences should be changed to "allocated by a coordinator".
+	\item [Avoid brackets:] Brackets should not be used to hide sub-sentences, examples or alternatives. The problem with this use of brackets is that it is not specific and keeps the reader guessing the exact meaning that is intended. For example "... system entities (users, networks and services) through ..." should be replaced by "... system entities such as users, networks, and services through ...".
+	\item [Figures:] Figures and graphs should have sufficient resolution; figures with low resolution appear blurred and require the reader to make assumptions.
+	\item [Punctuation:] A statement is concluded with a period; a question with a question mark. ;) 
+	\item [Spellcheckers:] Use a spellchecker!
+\end{description}
+
+
+
+%\bibliographystyle{apalike2}
+\bibliographystyle{plain}
+\bibliography{sample} 
+
+\end{document}
+
