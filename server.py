@@ -74,7 +74,7 @@ while(True):
     clientIP = "Client IP Address:{}".format(address)
     
     print("Here you guy my man, enjoy this!")
-    UDPServerSocketInternal.sendto((fileContents, address))
+    UDPServerSocketInternal.sendto(fileContents.encode('UTF-8'), address)
     
 
     
