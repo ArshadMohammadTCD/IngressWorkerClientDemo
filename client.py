@@ -4,7 +4,8 @@ serverAddressPort = ("172.20.0.2", 50000)
 bufferSize = 1024
 fileHeader = b'1'
 
-print("Server address port is "+ serverAddressPort)
+print("Server address port is ")
+print(serverAddressPort)
 
 ack_positive = "1";
 ack = "0";
