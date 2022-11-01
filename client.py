@@ -20,8 +20,9 @@ while True:
     bytesWithoutHeader[:0] = fileHeader
     bytesToSend = bytes(bytesWithoutHeader)
     print("Sending this to ")
+    print(serverAddressPort)
     print(bytesToSend)
-
+    UDPClientSocket.sendto(bytesToSend, serverAddressPort)
     count = 0
     # Stop and Wait ARQ
     while True:
@@ -37,7 +38,8 @@ while True:
             f.close
         except socket.timeout:
             while(ack_positive != ack):
-                print("Resending ack")   
+                print("Resending ack")
+                UDPClientSocket.sendto(bytesToSend, serverAddressPort)   
                 break
         
         if(ack_positive == ack):

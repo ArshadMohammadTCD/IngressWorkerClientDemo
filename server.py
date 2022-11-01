@@ -24,11 +24,15 @@ UDPServerSocketExternal.bind((externalIp, externalPort))
 print("UDP Server up and listening!")
 
 while(True):
+    print("Waiting for message")
     bytesAddressPair = UDPServerSocketExternal.recvfrom(bufferSize)
-    
+    print(externalIp)
+    print("Got a message!")
     message = bytesAddressPair[0]
     address = bytesAddressPair[1]
-    
+    print("Its from")
+    print(address)  
+    print(message)  
     fileContents = "";
 
     # Things to be noted it will check each one of the workers regardless of a positive outcome or not
