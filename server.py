@@ -9,6 +9,7 @@ internalIp = "172.21.0.2"
 externalIp = "172.20.0.2"
 
 # Another thing to check is if the two different ports affect anything
+workerPorts = 50000
 externalPort = 50000
 internalPort = 50001
 bufferSize = 1024
@@ -40,7 +41,7 @@ while(True):
 
     # Send a message to all workers
     # Send to worker 1
-    UDPServerSocketInternal.sendto(message, worker0Address)
+    UDPServerSocketInternal.sendto(message, (worker0Address, workerPorts))
     bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
     messageInt = bytesIntAddressPair[0]
     addressInt = bytesIntAddressPair[1]
@@ -50,7 +51,7 @@ while(True):
         #Probably something valid got sent      
 
     # Send to worker 2
-    UDPServerSocketInternal.sendto(message, worker1Address)
+    UDPServerSocketInternal.sendto(message, (worker1Address, workerPorts))
     bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
     messageInt = bytesIntAddressPair[0]
     addressInt = bytesIntAddressPair[1]
@@ -59,7 +60,7 @@ while(True):
         fileContents = messageInt.decode('UTF-8')
     
     # Send to worker 3
-    UDPServerSocketInternal.sendto(message, worker2Address)
+    UDPServerSocketInternal.sendto(message, (worker2Address, workerPorts))
     bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
     messageInt = bytesIntAddressPair[0]
     addressInt = bytesIntAddressPair[1]
@@ -72,7 +73,8 @@ while(True):
     clientMsg = "The client would like file :{} ".format(message)
     clientIP = "Client IP Address:{}".format(address)
     
-    UDPServerSocketInternal.sendto(fileContents, address)
+    print("Here you guy my man, enjoy this!")
+    UDPServerSocketInternal.sendto((fileContents, address))
     
 
     

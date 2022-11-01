@@ -16,6 +16,7 @@ print("Worker up and listening!")
 while(True):
     bytesAddressPair = workerSocket.recvfrom(bufferSize)
     
+    filename = ""
     nack = True
     messageToSend = "nack"
 
@@ -23,22 +24,23 @@ while(True):
     address = bytesAddressPair[1]
 
     # No clue if this syntax is correct
-    if (message[:0] != b'1'):
-        print("Incorrect Header details worker 0")
-        
-        # Have to remove the first byte somehow.
-        filename = message.decode('UTF-8')
 
-        if(filename == "file3.txt"):
-            try:
-                messageToSend = open(filename, 'r').readlines()
-            except FileNotFoundError:
-                messageToSend = "nack"
-                print("Wrong file or file path")
+    if (message[0] != 49):
+        print("Incorrect Header details worker 0")
+        messageToSend = "nack"
+        # Have to remove the first byte somehow.
+
+    filename = message[1:].decode('UTF-8')
+    if(filename == "file3.txt"):
+        try:
+            messageToSend = open(filename, 'r').readlines()
+        except FileNotFoundError:
+            messageToSend = "nack"
+            print("Wrong file or file path")
 
     if (nack == True):
         print("Sending nack")
-        msgBack = messageToSend
-        workerSocket.sendto(address, msgBack.decode('UTF-8'))
+        msgBack = str(messageToSend)
+        workerSocket.sendto(msgBack.encode('UTF-8'), address)
     
 
