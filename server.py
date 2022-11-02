@@ -8,6 +8,8 @@ worker2Address = "172.21.0.5"
 internalIp = "172.21.0.2"
 externalIp = "172.20.0.2"
 
+SEPERATOR = "<SEPERATOR>"
+
 # Another thing to check is if the two different ports affect anything
 workerPorts = 50000
 externalPort = 50000
@@ -35,47 +37,64 @@ while(True):
     print(address)  
     print(message)  
     fileContents = "";
+    nack = True
+
+    UDPServerSocketInternal.sendto(message, (worker0Address, workerPorts))
+    UDPServerSocketInternal.sendto(message, (worker1Address, workerPorts))
+    UDPServerSocketInternal.sendto(message, (worker2Address, workerPorts))
+    
+    while True:
+        # read 1024 bytes from the socket (receive)
+        bytes_read = UDPServerSocketInternal.recv(bufferSize)
+        print(bytes_read)
+        if not bytes_read:    
+            # nothing is received
+            # file transmitting is done
+            break
+        if (bytes_read.decode('UTF-8') != "nack"):
+            nack = False;
+            UDPServerSocketInternal.sendto(bytes_read, address)
+        # write to the file the bytes we just received
+        
+
+    if nack == True:
+        UDPServerSocketInternal.sendto("nack".encode('UTF-8'), address)
 
     # Things to be noted it will check each one of the workers regardless of a positive outcome or not
     # Need to implement some kind of loop so that we can send larger files
 
     # Send a message to all workers
     # Send to worker 1
-    UDPServerSocketInternal.sendto(message, (worker0Address, workerPorts))
-    bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
-    messageInt = bytesIntAddressPair[0]
-    addressInt = bytesIntAddressPair[1]
+    # UDPServerSocketInternal.sendto(message, (worker0Address, workerPorts))
+    # bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
+    # messageInt = bytesIntAddressPair[0]
+    # addressInt = bytesIntAddressPair[1]
     
-    if (messageInt.decode('UTF-8') != "nack"):
-        fileContents = messageInt.decode('UTF-8')
-        #Probably something valid got sent      
+    # if (messageInt.decode('UTF-8') != "nack"):
+    #     fileContents = messageInt.decode('UTF-8')
+    #     #Probably something valid got sent      
 
-    # Send to worker 2
-    UDPServerSocketInternal.sendto(message, (worker1Address, workerPorts))
-    bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
-    messageInt = bytesIntAddressPair[0]
-    addressInt = bytesIntAddressPair[1]
+    # # Send to worker 2
+    # UDPServerSocketInternal.sendto(message, (worker1Address, workerPorts))
+    # bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
+    # messageInt = bytesIntAddressPair[0]
+    # addressInt = bytesIntAddressPair[1]
     
-    if (messageInt.decode('UTF-8') != "nack"):
-        fileContents = messageInt.decode('UTF-8')
+    # if (messageInt.decode('UTF-8') != "nack"):
+    #     fileContents = messageInt.decode('UTF-8')
     
-    # Send to worker 3
-    UDPServerSocketInternal.sendto(message, (worker2Address, workerPorts))
-    bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
-    messageInt = bytesIntAddressPair[0]
-    addressInt = bytesIntAddressPair[1]
+    # # Send to worker 3
+    # UDPServerSocketInternal.sendto(message, (worker2Address, workerPorts))
+    # bytesIntAddressPair = UDPServerSocketInternal.recvfrom(bufferSize)
+    # messageInt = bytesIntAddressPair[0]
+    # addressInt = bytesIntAddressPair[1]
     
-    if (messageInt.decode('UTF-8') != "nack"):
-        fileContents = messageInt.decode('UTF-8')
+    # if (messageInt.decode('UTF-8') != "nack"):
+    #     fileContents = messageInt.decode('UTF-8')
 
     # Message to powershell
     # This just sends back the file contents back to the address (Client)    
-    clientMsg = "The client would like file :{} ".format(message)
-    clientIP = "Client IP Address:{}".format(address)
-    
-    print("Here you guy my man, enjoy this!")
-    UDPServerSocketInternal.sendto(fileContents.encode('UTF-8'), address)
-    
+
 
     
     

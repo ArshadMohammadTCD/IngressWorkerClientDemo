@@ -1,11 +1,16 @@
 import socket
+import tqdm
+import os
 
-
+SEPARATOR = "<SEPERATOR>"
 bufferSize = 1024
+
+
+
 worker0Address = "172.21.0.5"
 # Port might be an issue
 worker0Port = 50000
-
+fileHeader = b'1'
 ingressIp = "172.21.0.2"
 
 workerSocket = socket.socket(family=socket.AF_INET, type = socket.SOCK_DGRAM)
@@ -33,7 +38,22 @@ while(True):
     filename = message[1:].decode('UTF-8')
     if(filename == "file3.txt"):
         try:
-            messageToSend = open(filename, 'r').readlines()
+            filesize = os.path.getsize(filename)
+            progress = tqdm.tqdm(range(filesize), f"Sending {filename}", unit="B", unit_scale=True, unit_divisor=1024)
+            with open(filename, "rb") as f:
+                while True:
+                    
+                    # Reads the bytes one at a time
+                    bytes_read = f.read(bufferSize-1)
+                    if not bytes_read:
+                        break
+                    bytesWithoutHeader = bytearray(bytes_read)
+                    bytesWithoutHeader[:0] = fileHeader
+                    bytesToSend = bytes(bytesWithoutHeader)
+                    
+                    workerSocket.sendto(bytesToSend, address)
+                    progress.update(len(bytesToSend))
+                    nack = False
         except FileNotFoundError:
             messageToSend = "nack"
             print("Wrong file or file path")

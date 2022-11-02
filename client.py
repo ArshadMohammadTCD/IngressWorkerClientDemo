@@ -30,18 +30,21 @@ while True:
         # Asking the user what file it would like to send    
         try:
             UDPClientSocket.settimeout(10)
-            msgFromServer = UDPClientSocket.recvfrom(bufferSize)
-            fileWrite = msgFromServer[0].decode('UTF-8')
-            ack = "1"
-            f = open(str(count), "x")
-            f.write(fileWrite)
-            f.close
+            with open(str(count) + ".txt", "wb") as f:
+                while True:
+                    bytes_read = UDPClientSocket.recvfrom(bufferSize)
+                    if not bytes_read:
+                        break
+
+                    bytesMsg = bytes_read[0]
+                    bytesToWrite = bytesMsg[1:]
+                    f.write(bytesToWrite)
+                f.close
         except socket.timeout:
             while(ack_positive != ack):
                 print("Resending ack")
                 UDPClientSocket.sendto(bytesToSend, serverAddressPort)   
                 break
-        
         if(ack_positive == ack):
             break
         # Acknowledgement recieved and parsing data
