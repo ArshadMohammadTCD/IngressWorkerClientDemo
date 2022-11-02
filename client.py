@@ -35,10 +35,15 @@ while True:
                     bytes_read = UDPClientSocket.recvfrom(bufferSize)
                     if not bytes_read:
                         break
-
                     bytesMsg = bytes_read[0]
-                    bytesToWrite = bytesMsg[1:]
+                    if(bytesMsg == b'file not found'):
+                        print("File has not been found")
+                        ack= "1"
+                        break
+
+                    bytesToWrite = bytesMsg[1:]                    
                     f.write(bytesToWrite)
+                    ack = "1"
                 f.close
         except socket.timeout:
             while(ack_positive != ack):

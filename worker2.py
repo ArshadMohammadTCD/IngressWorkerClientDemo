@@ -23,7 +23,7 @@ while(True):
     
     filename = ""
     nack = True
-    messageToSend = "nack"
+    messageToSend = "file not found"
 
     message = bytesAddressPair[0]
     address = bytesAddressPair[1]
@@ -55,7 +55,7 @@ while(True):
                     progress.update(len(bytesToSend))
                     nack = False
         except FileNotFoundError:
-            messageToSend = "nack"
+            messageToSend = "file not found"
             print("Wrong file or file path")
 
     if (nack == True):

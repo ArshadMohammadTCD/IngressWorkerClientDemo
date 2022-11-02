@@ -44,21 +44,28 @@ while(True):
     UDPServerSocketInternal.sendto(message, (worker2Address, workerPorts))
     
     while True:
-        # read 1024 bytes from the socket (receive)
-        bytes_read = UDPServerSocketInternal.recv(bufferSize)
-        print(bytes_read)
-        if not bytes_read:    
-            # nothing is received
-            # file transmitting is done
-            break
-        if (bytes_read.decode('UTF-8') != "nack"):
-            nack = False;
-            UDPServerSocketInternal.sendto(bytes_read, address)
-        # write to the file the bytes we just received
-        
+        try:
+            UDPServerSocketInternal.settimeout(3)
+            # read 1024 bytes from the socket (receive)
+            bytes_read = UDPServerSocketInternal.recv(bufferSize)
+            print(bytes_read)
+            print(bytes_read.decode('UTF-8'))
 
-    if nack == True:
-        UDPServerSocketInternal.sendto("nack".encode('UTF-8'), address)
+            if not bytes_read:    
+                # nothing is received
+                # file transmitting is done
+                break
+
+            if (bytes_read.decode('UTF-8') != "file not found"):
+                nack = False;
+                UDPServerSocketInternal.sendto(bytes_read, address)
+            # write to the file the bytes we just received
+        except socket.timeout:
+            if nack == True:
+                print("File not found ")
+                UDPServerSocketInternal.sendto("file not found".encode('UTF-8'), address)
+                break
+    
 
     # Things to be noted it will check each one of the workers regardless of a positive outcome or not
     # Need to implement some kind of loop so that we can send larger files
@@ -93,11 +100,4 @@ while(True):
     #     fileContents = messageInt.decode('UTF-8')
 
     # Message to powershell
-    # This just sends back the file contents back to the address (Client)    
-
-
-    
-    
-            
-
-
+    # This just sends back the file contents back to the address (Client)
